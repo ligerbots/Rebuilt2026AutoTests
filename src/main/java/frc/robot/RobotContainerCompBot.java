@@ -248,8 +248,12 @@ public class RobotContainerCompBot extends RobotContainer {
 
         addAutoOption("Straight Line", List.of(
                 "path1"
+                ), false);
+                addAutoOption("Single Swipe", List.of(
+                "single_swipe"
                 ), true);
         
+
 
         SmartDashboard.putData("Auto Choice", m_chosenAutoPaths);
 

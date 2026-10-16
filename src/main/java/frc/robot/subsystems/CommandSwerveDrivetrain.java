@@ -453,9 +453,10 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                 speedsRobotRelative -> {
                     this.setControl(autoRequest.withSpeeds(speedsRobotRelative));
                 },
-                new PIDController(2.0, 0.0, 0.0),
-                new PIDController(1.0, 0.0, 0.0),
-                new PIDController(0.2, 0.0, 0.0)).withDefaultShouldFlip()
+                new PIDController(5.0, 0.0, 0.0),
+                new PIDController(5.0, 0.0, 0.0),
+                new PIDController(0.2, 0.0, 0.0))
+                .withDefaultShouldFlip()
                 .withTRatioBasedTranslationHandoffs(true);
     }
 
