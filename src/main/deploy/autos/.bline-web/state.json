@@ -32,6 +32,26 @@
   "paths": {
     "single_swipe.json": {
       "display_name": "single swipe",
+      "editor_metadata": {
+        "ranged_constraints": [
+          {
+            "key": "max_velocity_meters_per_sec",
+            "value": 2.25,
+            "start_ordinal": 1,
+            "end_ordinal": 1,
+            "source": "auto_velocity",
+            "auto_velocity": {
+              "velocity_safety_factor": 0.9,
+              "acceleration_safety_factor": 0.8,
+              "merge_tolerance_meters_per_sec": 0.3,
+              "input_signature": "{\"pathElements\":[{\"type\":\"waypoint\",\"xMeters\":4.316,\"yMeters\":7.42648,\"handoffRadiusMeters\":0.45,\"rotationRadians\":0,\"profiledRotation\":true},{\"type\":\"waypoint\",\"xMeters\":5.53322,\"yMeters\":7.44512,\"handoffRadiusMeters\":0.35,\"rotationRadians\":0,\"profiledRotation\":true},{\"type\":\"waypoint\",\"xMeters\":7.557998160062262,\"yMeters\":6.573397227542501,\"handoffRadiusMeters\":0.5,\"rotationRadians\":-1.5707963267948966,\"profiledRotation\":true},{\"type\":\"waypoint\",\"xMeters\":7.797974991059638,\"yMeters\":2.237599483006437,\"handoffRadiusMeters\":0.55,\"rotationRadians\":-1.5708,\"profiledRotation\":true},{\"type\":\"waypoint\",\"xMeters\":5.641720621171691,\"yMeters\":0.6802788318043023,\"handoffRadiusMeters\":0.4,\"rotationRadians\":-3.14159,\"profiledRotation\":true},{\"type\":\"waypoint\",\"xMeters\":3.73978,\"yMeters\":0.68323,\"handoffRadiusMeters\":0.45,\"rotationRadians\":-3.14159,\"profiledRotation\":true}],\"scalarConstraints\":{\"maxVelocityMps\":null,\"maxAccelerationMps2\":null,\"maxVelocityDegPerSec\":null,\"maxAccelerationDegPerSec\":null},\"rotationRangedConstraints\":[],\"config\":{\"maxVelocityMps\":4.5,\"maxAccelerationMps2\":12,\"handoffRadiusMeters\":0.45,\"maxVelocityDegPerSec\":720,\"maxAccelerationDegPerSec\":1500,\"autoVelocityVelocitySafetyFactor\":0.9,\"autoVelocityAccelerationSafetyFactor\":0.8},\"options\":{\"velocitySafetyFactor\":0.9,\"accelerationSafetyFactor\":0.8,\"sampleStepMeters\":null}}"
+            }
+          }
+        ]
+      }
+    },
+    "workspace-20261016194218-339334b9.json": {
+      "display_name": "Untitled Project 20261016194218-339334b9",
       "editor_metadata": null
     },
     "path1.json": {
@@ -53,10 +73,6 @@
           }
         ]
       }
-    },
-    "workspace-20261016194218-339334b9.json": {
-      "display_name": "Untitled Project 20261016194218-339334b9",
-      "editor_metadata": null
     }
   },
   "field_assets": {}
