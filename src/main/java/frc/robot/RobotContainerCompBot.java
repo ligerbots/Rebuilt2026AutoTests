@@ -37,6 +37,7 @@ import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 
 import frc.robot.commands.*;
 import frc.robot.commands.autoCommands.AutoCommandInterface;
+import frc.robot.commands.autoCommands.BLineAuto;
 import frc.robot.commands.autoCommands.CoreAuto;
 import frc.robot.generated.TunerConstantsCompBot;
 import frc.robot.subsystems.AprilTagVision;
@@ -110,7 +111,7 @@ public class RobotContainerCompBot extends RobotContainer {
         );
         m_hopper = new Hopper(m_drivetrain::getRobotCentricSpeeds); 
 
-        // m_drivetrain.setupPathPlanner();
+        m_drivetrain.setupBline();
 
         configureBindings();
 
@@ -124,126 +125,131 @@ public class RobotContainerCompBot extends RobotContainer {
         // not used by PathPlanner triggers
         m_virtualShootButton.whileTrue(getShootCommand());
 
-        addAutoOption("Depot Double Swipe Blitz", List.of(
-                "First Swipe Blitz",
-                "Swipe Shoot",
-                "Depot Double Swipe Blitz",
-                "Depot Trench Run Out"
+        // addAutoOption("Depot Double Swipe Blitz", List.of(
+        //         "First Swipe Blitz",
+        //         "Swipe Shoot",
+        //         "Depot Double Swipe Blitz",
+        //         "Depot Trench Run Out"
+        //         ), true);
+        
+        // addAutoOption("Depot Double Swipe Swing", List.of(
+        //         "First Swipe Swing",
+        //         "Swipe Shoot",
+        //         "Depot Double Swipe Blitz",
+        //         "Depot Trench Run Out"
+        //         ));
+
+        // addAutoOption("BStart Depot Bump Only", List.of(
+        //         "Bump Preload Bump",
+        //         "BStart First Swipe Bump",
+        //         "Bump Bump Shoot",
+        //         "BStart First Swipe Bump",
+        //         "Bump Depot Shoot"
+        //         ));
+
+        // addAutoOption("BStart Depot Double Bump", List.of(
+        //         "Bump Preload Trench",
+        //         "Second Swipe Bump",
+        //         "Bump Trench Shoot",
+        //         "Third Swipe Bump",
+        //         "Bump Depot Shoot"
+        //         ));
+
+        // addAutoOption("Depot Double Swipe Bump", List.of(
+        //         "First Swipe Bump",
+        //         "Bump Trench Shoot",
+        //         "Second Swipe Bump",
+        //         "Bump Depot Shoot"
+        //         ));
+
+        // addAutoOption("Depot Triple Swipe Bump", List.of(
+        //         "First Swipe Bump",
+        //         "Bump Trench Shoot",
+        //         "Second Swipe Bump",
+        //         "Bump Trench Shoot",
+        //         "Second Swipe Bump",
+        //         "Bump Depot Shoot"
+        //         ));
+
+        // addAutoOption("Triple Swipe Bump", List.of(
+        //         "First Swipe Bump",
+        //         "Bump Trench Shoot",
+        //         "Second Swipe Bump",
+        //         "Bump Trench Shoot",
+        //         "Second Swipe Bump",
+        //         "Bump Trench Shoot"
+        //         ));
+
+        // addAutoOption("Triple Swipe Blitz", List.of(
+        //         "First Swipe Blitz",
+        //         "Swipe Shoot",
+        //         "Second Swipe",
+        //         "Swipe Shoot Alt",
+        //         "Third Swipe",
+        //         "Swipe Shoot Alt"
+        //         ));
+
+        // addAutoOption("Triple Swipe Swing", List.of(
+        //         "First Swipe Swing",
+        //         "Swipe Shoot",
+        //         "Second Swipe",
+        //         "Swipe Shoot Alt",
+        //         "Third Swipe",
+        //         "Swipe Shoot Alt"
+        //         ));
+
+        // addAutoOption("Triple Swipe Pass", List.of(
+        //         "First Swipe Blitz",
+        //         "Swipe Shoot",
+        //         "Second Swipe",
+        //         "Swipe Shoot Alt",
+        //         "Third Swipe Pass"
+        //         ));
+
+        // addAutoOption("Pass Blitz", List.of(
+        //         "Pass Swipe",
+        //         "Pass Shoot"
+        //         ));
+        
+        // addAutoOption("Center Depot Simple Auto", List.of(
+        //         "Hub Depot Shoot"
+        //         ));
+
+        // addAutoOption("Swing Depot Double Swipe Blitz", List.of(
+        //         "Swing First Swipe Blitz",
+        //         "Swipe Shoot",
+        //         "Depot Double Swipe Blitz"
+        //         ));
+
+        // addAutoOption("Steal DOUBLE Swipe", List.of(
+        //         "First Swipe Steal",
+        //         "Swipe Shoot",
+        //         "Depot Double Swipe Blitz",
+        //         "Depot Trench Run Out"
+        //         ));
+
+        // addAutoOption("Steal TRIPLE Swipe", List.of(
+        //         "First Swipe Steal",
+        //         "Swipe Shoot",
+        //         "Second Swipe",
+        //         "Swipe Shoot Alt",
+        //         "Third Swipe",
+        //         "Swipe Shoot Alt"
+        //         ));
+
+        //  addAutoOption("4946 Triple Swipe Blitz", List.of(
+        //         "4946 First Swipe Blitz",
+        //         "Swipe Shoot",
+        //         "Second Swipe",
+        //         "Swipe Shoot Alt",
+        //         "Third Swipe",
+        //         "Swipe Shoot Alt"
+        //         ));
+
+        addAutoOption("Straight Line", List.of(
+                "path1"
                 ), true);
         
-        addAutoOption("Depot Double Swipe Swing", List.of(
-                "First Swipe Swing",
-                "Swipe Shoot",
-                "Depot Double Swipe Blitz",
-                "Depot Trench Run Out"
-                ));
-
-        addAutoOption("BStart Depot Bump Only", List.of(
-                "Bump Preload Bump",
-                "BStart First Swipe Bump",
-                "Bump Bump Shoot",
-                "BStart First Swipe Bump",
-                "Bump Depot Shoot"
-                ));
-
-        addAutoOption("BStart Depot Double Bump", List.of(
-                "Bump Preload Trench",
-                "Second Swipe Bump",
-                "Bump Trench Shoot",
-                "Third Swipe Bump",
-                "Bump Depot Shoot"
-                ));
-
-        addAutoOption("Depot Double Swipe Bump", List.of(
-                "First Swipe Bump",
-                "Bump Trench Shoot",
-                "Second Swipe Bump",
-                "Bump Depot Shoot"
-                ));
-
-        addAutoOption("Depot Triple Swipe Bump", List.of(
-                "First Swipe Bump",
-                "Bump Trench Shoot",
-                "Second Swipe Bump",
-                "Bump Trench Shoot",
-                "Second Swipe Bump",
-                "Bump Depot Shoot"
-                ));
-
-        addAutoOption("Triple Swipe Bump", List.of(
-                "First Swipe Bump",
-                "Bump Trench Shoot",
-                "Second Swipe Bump",
-                "Bump Trench Shoot",
-                "Second Swipe Bump",
-                "Bump Trench Shoot"
-                ));
-
-        addAutoOption("Triple Swipe Blitz", List.of(
-                "First Swipe Blitz",
-                "Swipe Shoot",
-                "Second Swipe",
-                "Swipe Shoot Alt",
-                "Third Swipe",
-                "Swipe Shoot Alt"
-                ));
-
-        addAutoOption("Triple Swipe Swing", List.of(
-                "First Swipe Swing",
-                "Swipe Shoot",
-                "Second Swipe",
-                "Swipe Shoot Alt",
-                "Third Swipe",
-                "Swipe Shoot Alt"
-                ));
-
-        addAutoOption("Triple Swipe Pass", List.of(
-                "First Swipe Blitz",
-                "Swipe Shoot",
-                "Second Swipe",
-                "Swipe Shoot Alt",
-                "Third Swipe Pass"
-                ));
-
-        addAutoOption("Pass Blitz", List.of(
-                "Pass Swipe",
-                "Pass Shoot"
-                ));
-        
-        addAutoOption("Center Depot Simple Auto", List.of(
-                "Hub Depot Shoot"
-                ));
-
-        addAutoOption("Swing Depot Double Swipe Blitz", List.of(
-                "Swing First Swipe Blitz",
-                "Swipe Shoot",
-                "Depot Double Swipe Blitz"
-                ));
-
-        addAutoOption("Steal DOUBLE Swipe", List.of(
-                "First Swipe Steal",
-                "Swipe Shoot",
-                "Depot Double Swipe Blitz",
-                "Depot Trench Run Out"
-                ));
-
-        addAutoOption("Steal TRIPLE Swipe", List.of(
-                "First Swipe Steal",
-                "Swipe Shoot",
-                "Second Swipe",
-                "Swipe Shoot Alt",
-                "Third Swipe",
-                "Swipe Shoot Alt"
-                ));
-
-         addAutoOption("4946 Triple Swipe Blitz", List.of(
-                "4946 First Swipe Blitz",
-                "Swipe Shoot",
-                "Second Swipe",
-                "Swipe Shoot Alt",
-                "Third Swipe",
-                "Swipe Shoot Alt"
-                ));
 
         SmartDashboard.putData("Auto Choice", m_chosenAutoPaths);
 
@@ -440,7 +446,7 @@ public class RobotContainerCompBot extends RobotContainer {
             m_autoSelectionCode = currentAutoSelectionCode;
 
             boolean isOutpostSide = selectedFieldSide.equals("Outpost Side");
-            m_autoCommand = CoreAuto.getInstance(selectedAutoPaths, m_drivetrain, isOutpostSide, m_virtualShootButton);
+            m_autoCommand = new BLineAuto(selectedAutoPaths, m_drivetrain, isOutpostSide);
 
             // AutoPreviewData autoPreview = buildAutoPreview(selectedAutoPaths, isOutpostSide);
             // m_autoPreviewPoses = autoPreview.poses();

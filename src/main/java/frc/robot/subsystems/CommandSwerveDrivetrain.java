@@ -14,9 +14,11 @@ import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.swerve.SwerveRequest;
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -35,15 +37,14 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.simulation.RoboRioSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-
-import frc.robot.FieldConstants;
 import frc.robot.commands.Shoot;
 import frc.robot.generated.TunerConstantsCompBot;
 import frc.robot.generated.TunerConstantsCompBot.TunerSwerveDrivetrain;
+import frc.robot.lib.BLine.FollowPath;
+import frc.robot.lib.BLine.Path;
 import frc.robot.subsystems.shooter.Turret;
 import frc.robot.utilities.simulation.MapleSimSwerveDrivetrain;
 
@@ -80,6 +81,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     private final AprilTagVision m_aprilTagVision;
 
     private MapleSimSwerveDrivetrain m_mapleSimSwerveDrivetrain = null;
+
+    private FollowPath.Builder m_blinePathBuilder;
 
     /* SysId routine for characterizing translation. This is used to find PID gains for the drive motors. */
     private final SysIdRoutine m_sysIdRoutineTranslation = new SysIdRoutine(
@@ -442,4 +445,26 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     //     return null;
     // }
 
+    public void setupBline() {
+        m_blinePathBuilder = new FollowPath.Builder(
+                this,
+                this::getPose,
+                () -> this.getState().Speeds,
+                speedsRobotRelative -> {
+                    this.setControl(autoRequest.withSpeeds(speedsRobotRelative));
+                },
+                new PIDController(2.0, 0.0, 0.0),
+                new PIDController(1.0, 0.0, 0.0),
+                new PIDController(0.2, 0.0, 0.0)).withDefaultShouldFlip()
+                .withTRatioBasedTranslationHandoffs(true);
+    }
+
+    // Follow a BLine Path
+    public Command followPath(Path path) {
+        Command cmd = m_blinePathBuilder.build(path);
+
+        // // Builder options persist. Clear this before building any later path command.
+        // m_blinePathBuilder.withPoseReset(ignored -> {});
+        return cmd;
+    }
 }
