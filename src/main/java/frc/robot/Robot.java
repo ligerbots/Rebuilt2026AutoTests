@@ -103,12 +103,12 @@ public class Robot extends TimedRobot {
             if (driveTrain != null) driveTrain.setPose(m_robotContainer.getInitialPose());
         }
 
-        m_robotContainer.updateAutoPreviewActor();
+        // m_robotContainer.updateAutoPreviewActor();
     }
 
     @Override
     public void disabledExit() {
-        m_robotContainer.clearAutoPreview();
+        // m_robotContainer.clearAutoPreview();
     }
 
     @Override

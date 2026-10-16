@@ -14,13 +14,6 @@ import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.swerve.SwerveRequest;
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.commands.FollowPathCommand;
-import com.pathplanner.lib.commands.PathfindingCommand;
-import com.pathplanner.lib.config.PIDConstants;
-import com.pathplanner.lib.config.RobotConfig;
-import com.pathplanner.lib.controllers.PPHolonomicDriveController;
-import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.math.Matrix;
@@ -43,6 +36,7 @@ import edu.wpi.first.wpilibj.simulation.RoboRioSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 
@@ -72,9 +66,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     /* Keep track if we've ever applied the operator perspective before or not */
     private boolean m_hasAppliedOperatorPerspective = false;
 
-    // values from 2024 competition. Maybe should be tuned
-    private static final PIDConstants PATH_PLANNER_TRANSLATION_PID = new PIDConstants(5, 0, 0);
-    private static final PIDConstants PATH_PLANNER_ANGLE_PID       = new PIDConstants(5, 0, 0);
+    // // values from 2024 competition. Maybe should be tuned
+    // private static final PIDConstants PATH_PLANNER_TRANSLATION_PID = new PIDConstants(5, 0, 0);
+    // private static final PIDConstants PATH_PLANNER_ANGLE_PID       = new PIDConstants(5, 0, 0);
 
     private final SwerveRequest.ApplyRobotSpeeds autoRequest = new SwerveRequest.ApplyRobotSpeeds();
 
@@ -374,52 +368,52 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         return super.samplePoseAt(Utils.fpgaToCurrentTime(timestampSeconds));
     }
 
-    public void setupPathPlanner() {
-        try {
-            // Load the RobotConfig from the settings file created by GUI. 
-            // You should probably store this in your Constants file
-            RobotConfig config = RobotConfig.fromGUISettings();
+    // public void setupPathPlanner() {
+    //     try {
+    //         // Load the RobotConfig from the settings file created by GUI. 
+    //         // You should probably store this in your Constants file
+    //         RobotConfig config = RobotConfig.fromGUISettings();
 
-            // TODO: fix code to allow FF
-            // final boolean enableFeedforward = true;
-            // Configure AutoBuilder last
-            AutoBuilder.configure(
-                    // Robot pose supplier
-                    this::getPose,   
-                    // null - no need to set pose at very start of Auto
-                    null,
-                    // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-                    () -> this.getState().Speeds,
-                    // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also
-                    // optionally outputs individual module feedforwards
-                    (speedsRobotRelative, moduleFeedForwards) -> {
-                        // Consumer of ChassisSpeeds to drive the robot
-                        this.setControl(autoRequest.withSpeeds(speedsRobotRelative));
-                    },
-                    // PPHolonomicController is the built in path following controller for holonomic
-                    // drive trains
-                    new PPHolonomicDriveController(
-                            PATH_PLANNER_TRANSLATION_PID,
-                            PATH_PLANNER_ANGLE_PID),
-                    // The robot configuration
-                    config,
-                    // whether to flip directions for Red
-                    () -> FieldConstants.isRedAlliance(),
-                    // Reference to this subsystem to set requirements
-                    this
-            );
+    //         // TODO: fix code to allow FF
+    //         // final boolean enableFeedforward = true;
+    //         // Configure AutoBuilder last
+    //         AutoBuilder.configure(
+    //                 // Robot pose supplier
+    //                 this::getPose,   
+    //                 // null - no need to set pose at very start of Auto
+    //                 null,
+    //                 // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+    //                 () -> this.getState().Speeds,
+    //                 // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also
+    //                 // optionally outputs individual module feedforwards
+    //                 (speedsRobotRelative, moduleFeedForwards) -> {
+    //                     // Consumer of ChassisSpeeds to drive the robot
+    //                     this.setControl(autoRequest.withSpeeds(speedsRobotRelative));
+    //                 },
+    //                 // PPHolonomicController is the built in path following controller for holonomic
+    //                 // drive trains
+    //                 new PPHolonomicDriveController(
+    //                         PATH_PLANNER_TRANSLATION_PID,
+    //                         PATH_PLANNER_ANGLE_PID),
+    //                 // The robot configuration
+    //                 config,
+    //                 // whether to flip directions for Red
+    //                 () -> FieldConstants.isRedAlliance(),
+    //                 // Reference to this subsystem to set requirements
+    //                 this
+    //         );
 
-        } catch (Exception e) {
-            // Handle exception as needed
-            e.printStackTrace();
-        }
+    //     } catch (Exception e) {
+    //         // Handle exception as needed
+    //         e.printStackTrace();
+    //     }
 
-        // Preload PathPlanner Path finding
-        // IF USING CUSTOM PATHFINDER ADD BEFORE THIS LINE
+    //     // Preload PathPlanner Path finding
+    //     // IF USING CUSTOM PATHFINDER ADD BEFORE THIS LINE
         
-        CommandScheduler.getInstance().schedule(PathfindingCommand.warmupCommand());
-        CommandScheduler.getInstance().schedule(FollowPathCommand.warmupCommand());
-    }
+    //     CommandScheduler.getInstance().schedule(PathfindingCommand.warmupCommand());
+    //     CommandScheduler.getInstance().schedule(FollowPathCommand.warmupCommand());
+    // }
 
     /**
      * Get the path follower with events.
@@ -429,22 +423,23 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
      */
     public Command followPath(PathPlannerPath path) {
         // Create a path following command using AutoBuilder. This will also trigger event markers.
-        return AutoBuilder.followPath(path);
+        // return AutoBuilder.followPath(path);
+        return Commands.waitTime(Seconds.of(1.0));  // dummy for now
     }
 
-    public Command pathFindToPose(Pose2d targetPose, PathConstraints constraints) {
+    // public Command pathFindToPose(Pose2d targetPose, PathConstraints constraints) {
         
-        return AutoBuilder.pathfindToPose(targetPose, constraints);
-    }
+    //     return AutoBuilder.pathfindToPose(targetPose, constraints);
+    // }
 
-    public static PathPlannerPath loadPath(String pathName) {
-        try {
-            PathPlannerPath path = PathPlannerPath.fromPathFile(pathName);
-            return path;
-        } catch (Exception e) {
-            DriverStation.reportError(String.format("Unable to load PP path %s", pathName), true);
-        }
-        return null;
-    }
+    // public static PathPlannerPath loadPath(String pathName) {
+    //     try {
+    //         PathPlannerPath path = PathPlannerPath.fromPathFile(pathName);
+    //         return path;
+    //     } catch (Exception e) {
+    //         DriverStation.reportError(String.format("Unable to load PP path %s", pathName), true);
+    //     }
+    //     return null;
+    // }
 
 }
